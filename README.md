@@ -75,7 +75,7 @@ The datasets used in this repository are from the course EDS 213 - Databases and
 
 ## Info for cleaned snow cover data
 
-#### data/processed/all_cover_fixed_YOURNAME.csv : 
+**File:** data/processed/all_cover_fixed_YOURNAME.csv : 
 
 **Number of variables:** 11
 
