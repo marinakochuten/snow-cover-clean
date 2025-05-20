@@ -1,0 +1,241 @@
+---
+title: "Assignment #2: Data Cleaning"
+author: "Marina Kochuten"
+format: html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Setup
+
+```{r}
+# Load libraries
+library(tidyverse)
+
+# Import csv with corrected Snow_cover column
+snow_survey_df <- read_csv(here::here("data", "processed", "snow_cover.csv"))
+```
+
+# Clean `Water_cover` column
+
+```{r}
+# Look at data types of each column
+glimpse(snow_survey_df)
+```
+
+`Water_cover` is character, when we would expect numeric. 
+
+```{r}
+# Check for non-numeric values
+snow_survey_df |>
+  count(Water_cover) |>
+  filter(is.na(as.numeric(Water_cover)))
+```
+
+There are 32 rows containing "n/a" and 1 row containing "unk".
+I assume that both of those entries are safe to be replaced with NA.
+
+```{r}
+# Replace "n/a" with NA
+snow_survey_df <- snow_survey_df |>
+  mutate(Water_cover = ifelse(Water_cover == "n/a", NA, Water_cover))
+
+# Check that "n/a" is no longer in `Water_cover` column
+snow_survey_df |>
+  count(Water_cover) |>
+  filter(is.na(as.numeric(Water_cover)))
+
+# Replace "unk" with NA
+snow_survey_df <- snow_survey_df |>
+  mutate(Water_cover = ifelse(Water_cover == "unk", NA, Water_cover))
+
+# Check that "unk" is no longer in `Water_cover` column
+snow_survey_df |>
+  count(Water_cover) |>
+  filter(is.na(as.numeric(Water_cover)))
+```
+
+Now that our only non-numeric values are NA, we can transform the data type in this column
+
+```{r}
+# Coerce `Water_cover` column to numeric
+snow_survey_df <- snow_survey_df |>
+  mutate(Water_cover = as.numeric(Water_cover))
+
+# Check that transformation worked
+glimpse(snow_survey_df)
+```
+
+`Water_cover` is a percentage, so all values are expected to be between 0 and 100. Let's check that now
+
+```{r}
+# Check for values over 100
+snow_survey_df |>
+  filter(Water_cover > 100)
+```
+
+One value is above 100, at 353. Since it is only 1 value, I will go ahead and set this to NA
+
+```{r}
+# Set value that's > 100 to NA
+snow_survey_df <- snow_survey_df |>
+  mutate(Water_cover = ifelse(Water_cover > 100, NA, Water_cover))
+
+# Check that worked
+snow_survey_df |>
+  filter(Water_cover > 100)
+```
+
+```{r}
+# Check for negative values
+snow_survey_df |>
+  filter(Water_cover < 0)
+```
+
+No negative values. 
+
+Data type has been corrected and we ensured that all values were what would be expected of a percentage. Now, let's do the `Land_cover` column. 
+
+
+
+# Clean `Land_cover` column
+
+```{r}
+# Look at data types of each column
+glimpse(snow_survey_df)
+```
+
+`Land_cover` is character, when we would expect numeric. 
+
+```{r}
+# Check for non-numeric values
+snow_survey_df |>
+  count(Land_cover) |>
+  filter(is.na(as.numeric(Land_cover)))
+```
+
+There are 32 rows containing "n/a" and 1 row containing "unk".
+I assume that both of those entries are safe to be replaced with NA.
+
+```{r}
+# Replace "n/a" with NA
+snow_survey_df <- snow_survey_df |>
+  mutate(Land_cover = ifelse(Land_cover == "n/a", NA, Land_cover))
+
+# Check that "n/a" is no longer in `Water_cover` column
+snow_survey_df |>
+  count(Land_cover) |>
+  filter(is.na(as.numeric(Land_cover)))
+
+# Replace "unk" with NA
+snow_survey_df <- snow_survey_df |>
+  mutate(Land_cover = ifelse(Land_cover == "unk", NA, Land_cover))
+
+# Check that "unk" is no longer in `Water_cover` column
+snow_survey_df |>
+  count(Land_cover) |>
+  filter(is.na(as.numeric(Land_cover)))
+```
+
+Now that our only non-numeric values are NA, we can transform the data type in this column
+
+```{r}
+# Coerce `Water_cover` column to numeric
+snow_survey_df <- snow_survey_df |>
+  mutate(Land_cover = as.numeric(Land_cover))
+
+# Check that transformation worked
+glimpse(snow_survey_df)
+```
+
+`Land_cover` is a percentage, so all values are expected to be between 0 and 100. Let's check that now
+
+```{r}
+# Check for values over 100
+snow_survey_df |>
+  filter(Land_cover > 100)
+```
+
+No values are over 100.
+
+```{r}
+# Check for negative values
+snow_survey_df |>
+  filter(Land_cover < 0)
+```
+
+Two rows have negative values. As above, I'll set those to NA.
+
+```{r}
+# Set negative values to NA
+snow_survey_df <- snow_survey_df |>
+  mutate(Land_cover = ifelse(Land_cover < 0, NA, Land_cover))
+
+# Check there are no longer negative values
+snow_survey_df |>
+  filter(Land_cover < 0)
+```
+
+Data type has been corrected and we ensured that all values were what would be expected of a percentage. Now, let's do the `Total_cover` column. 
+
+# Clean `Total_cover` column
+
+`Total_cover` is the total sum of the 3 percent columns, `Snow_cover`, `Water_cover`, and `Land_cover`. From the metadata, this column is meant to always sum to 100. 
+
+First, let's look at the data type. 
+
+```{r}
+glimpse(snow_survey_df)
+```
+
+Numeric, as expected!
+
+Now, I want to see any rows where `Total_cover` is not equal to the sum of `Snow_cover`, `Water_cover`, and `Land_cover` and where `Total_cover` does not equal 100. 
+
+```{r}
+snow_survey_df |>
+  filter(Total_cover != Snow_cover + Water_cover + Land_cover)
+```
+
+There are 184 rows where things aren't adding up. I may be able to infer values for the _cover columns if `Total_cover` = 100 and two out of the 3 `_cover` columns have values the sum to less than 100. In those instances, it is probably safe to assume that the 3rd column is the difference between the sum of the two columns and 100.
+
+From glancing over the 184 instances where `Total_cover` is not the sum of the `_cover` columns, there are only 2 where I could infer based on my above logic. That is negligible in the ~43,000 observations. 
+
+Next, I will force `Total_cover` to be the sum of the 3 cover columns.
+
+```{r}
+# Force Total_cover to be the sum of _cover columns
+snow_survey_df <- snow_survey_df |>
+  mutate(Total_cover = Snow_cover + Water_cover + Land_cover)
+
+# Check the columns where things don't add up to 100
+snow_survey_df |>
+  filter(Total_cover != 100)
+```
+
+There are a total of 4,573 observations where there was an error quantifying % cover of snow, water or land. That is about 10% of the total observations, which seems like a lot to ignore.
+
+However, in this case, I do not see a way to safely infer values for % cover. So, I am going to make any non-100 value of `Total_cover` NA. Having it this way will allow us to quickly see in what instances something is off in the `_cover` columns.
+
+I am not going to change all of the `_cover` columns to NA, in case someone would like to go back and fix those rows that do not add up in the future. 
+
+```{r}
+# Set total_cover to NA when cover columns do not sum to 100
+snow_survey_cleaned <- snow_survey_df |>
+  mutate(Total_cover = ifelse(Total_cover != 100, NA, Total_cover))
+
+# Check that the only values in Total_cover column are 100 and NA
+unique(snow_survey_cleaned$Total_cover)
+```
+
+Now that all of the cover columns are cleaned, I'm ready to save to a csv.
+
+```{r}
+# Write cleaned data to csv in processed data folder
+write_csv(snow_survey_cleaned, here::here("data", "processed", "all_cover_fixed_marina_kochuten.csv"))
+```
+
+
+
+
+
