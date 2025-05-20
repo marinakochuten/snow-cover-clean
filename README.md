@@ -70,7 +70,7 @@ Each data file is available on the ASDN page at the [NSF Arctic Data Center](htt
 
 #### Other versions of this dataset:
 
-The datasets used in the course are cleaned-up subsets of the full dataset. Data was subset to keep the size and complexity manageable for pedagogical purposes.
+The datasets used in this repository are from the course EDS 213 - Databases and Data Management. Data used in the course are cleaned-up subsets of the full dataset. Data was subset to keep the size and complexity manageable for pedagogical purposes.
 
 
 ## Info for cleaned snow cover data
