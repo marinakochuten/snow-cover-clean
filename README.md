@@ -22,7 +22,7 @@ The purpose of this repository is to clean the snow survey data included in this
 
 ## Data & File Overview
 
-#### 1. File List:
+#### File List:
 
 ```
 .
@@ -39,27 +39,70 @@ The purpose of this repository is to clean the snow survey data included in this
         └── ASDN_Snow_Survey                          # Snow cover survey data
 ```
 
-#### 2. Relationship between files, if important:
+
+#### Additional related data collected that was not included in the current data package:
+
+There are many other related tables that are not included in this repository including:
+
+- Bird_captures
+- Bird_eggs
+- Bird_nests
+- Bird_resights
+- Bird_sexes
+- Camp_info
+- Camp_staff
+- Daily_pred_lemm
+- Daily_species_effort
+- Geodata
+- Invert_biomass
+- Lemming_counts
+- Lemming_nests
+- Lemming_trap
+- Pred_nests
+- Pred_point_counts
+- Study_Plot	(KMZ file)
+- Surface_water
+- Weather_HOBO
+- Weather_precip_manual
+- Weather_snow_manual
+
+Each data file is available on the ASDN page at the [NSF Arctic Data Center](https://arcticdata.io) and is a .csv file with prefix "ASDN_"
+
+#### Other versions of this dataset:
+
+The datasets used in the course are cleaned-up subsets of the full dataset. Data was subset to keep the size and complexity manageable for pedagogical purposes.
 
 
-#### 3. Additional related data collected that was not included in the current data package:
+## Info for cleaned snow cover data
 
-#### 4. Are there multiple versions of the dataset? 
+#### data/processed/all_cover_fixed_YOURNAME.csv : 
 
-## DATA-SPECIFIC INFORMATION FOR:
+**Number of variables:** 11
 
-For the file  data/processed/all_cover_fixed_YOURNAME.csv : 
+**Number of cases/rows:** 42,830
 
-1. Number of variables:
+**Variable List:**
 
-2. Number of cases/rows:
+| Variable name | Description                                                                                                                                                           | Unit(s) / Value type |
+|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| Site          | Four-letter code of site at which data were collected                                                                                                                 | string               |
+| Year          | Year in which data were collected                                                                                                                                     | integer              |
+| Date          | Date on which data were collected                                                                                                                                     | date                 |
+| Plot          | Name of study plot on which survey was conducted                                                                                                                      | string               |
+| Location      | Name of dedicated snow-survey location, if applicable                                                                                                                 | string               |
+| Snow_cover    | Percent cover of snow, including slush                                                                                                                                | integer              |
+| Water_cover   | Percent cover of water                                                                                                                                                | integer              |
+| Land_cover    | Percent cover of exposed land                                                                                                                                         | integer              |
+| Total_cover   | Sum of previous three _cover variables. Values either 100 or NA.  If NA, _cover variables do not add to 100, suggesting instances of incomplete land cover surveying. | integer              |
+| Observer      | Person who conducted the survey                                                                                                                                       | string               |
+| Notes         | Any relevant comments on the survey                                                                                                                                   | string               |
 
-3. Variable List: <list variable name(s), description(s), unit(s)and value 
-labels as appropriate for each>
+**Missing data codes:**
+   
+Missing data encoded as NA.
 
-4. Missing data codes: <list code/symbol and definition>
+Note that in Total_cover column, NA values indicate that _cover columns do not sum to 100. 
 
-5. Specialized formats or other abbreviations used:
 
 SHARING/ACCESS INFORMATION
 
