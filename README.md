@@ -75,7 +75,7 @@ The datasets used in this repository are from the course EDS 213 - Databases and
 
 ## Info for cleaned snow cover data
 
-**File:** data/processed/all_cover_fixed_YOURNAME.csv : 
+**File:** data/processed/all_cover_fixed_marina_kochuten.csv : 
 
 **Number of variables:** 11
 
@@ -104,18 +104,30 @@ Missing data encoded as NA.
 Note that in Total_cover column, NA values indicate that _cover columns do not sum to 100. 
 
 
-SHARING/ACCESS INFORMATION
+## Sharing / Access Information
 
 1. Licenses/restrictions placed on the data:
+   
+   This data is licensed under the Creative Commons Attribution 4.0 International License.
 
-2. Links to publications that cite or use the data:
+3. Links to publications that cite or use the data:
 
-3. Links to other publicly accessible locations of the data:
+   https://onlinelibrary.wiley.com/doi/10.1111/ibi.12571
+   https://www.researchgate.net/publication/327839978_Effects_of_leg_flags_on_nest_survival_of_four_species_of_Arctic-breeding_shorebirds
+   https://pubmed.ncbi.nlm.nih.gov/36778838/
 
-4. Links/relationships to ancillary data sets: <any supplementary data sources 
-that support analysis or classification of the datasets, eg., plant taxonomy table.)>
+5. Links to other publicly accessible locations of the data:
 
-5. Was data derived from another source? If yes, list source(s): <list citations 
-to original sources>
+   https://cn.dataone.org/cn/v2/resolve/urn:uuid:d46a5b90-618f-4a7b-a1b7-ed08d12b1bd9 
 
-6. Recommended citation for the project:
+7. Links/relationships to ancillary data sets:
+
+   NA
+
+9. Was data derived from another source?
+
+    Data derived from the class repository for EDS 213 - Databases and Data Management: https://github.com/UCSB-Library-Research-Data-Services/bren-meds213-data-cleaning 
+
+11. Recommended citation for the project:
+
+    Lanctot, RB and ST Saalfeld. 2016. Barrow, 2014. Arctic Shorebird Demographics Network. NSF Arctic Data Center. doi:10.18739/A2222R68W.
